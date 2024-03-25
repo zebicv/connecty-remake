@@ -1,0 +1,21 @@
+USERS:
+    id: UUID
+    email: string
+    username: string
+    password: string
+
+POSTS:
+    id: UUID
+    content: LONGTEXT
+    likes: number (number of likes)
+    date: date
+    user_id: uuid (refrence on user)
+    liked_by: [uuid] (smisliti vezu - da li biti nova tabela ili ne)
+
+COMMENTS:
+    id: UUID
+    content: LONGTEXT
+    date: date
+    user_id: UUID
+    post_id: UUID
+    
