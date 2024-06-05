@@ -1,9 +1,11 @@
 import express from "express";
 import bodyParser from "body-parser";
+import path from "path";
 import dotenv from "dotenv";
 import session from "express-session";
 import passport from "passport";
 import RedisStore from "connect-redis";
+import fileUpload from "express-fileupload";
 import { createClient } from "redis";
 import { errorHandler } from "./middlewares/errorHandler";
 import { userRoutes } from "./routes/userRoutes";
@@ -11,6 +13,9 @@ import { authRoutes } from "./routes/auth";
 
 dotenv.config();
 const app = express();
+
+app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -32,6 +37,8 @@ app.use(passport.session());
 import "./modules/auth/strategy/passport";
 
 const PORT = process.env.PORT || 3000;
+
+app.use(fileUpload());
 
 authRoutes(app);
 userRoutes(app);

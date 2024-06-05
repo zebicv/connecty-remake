@@ -2,7 +2,6 @@ import { Application, Request, Response } from "express";
 import { safeParse } from "../utils/safeParse";
 import { login, logout, register } from "../modules/auth/auth.controller";
 import passport from "passport";
-import { isLoggedIn } from "../modules/auth/strategy/passport";
 
 export function authRoutes(app: any): Application {
   app.group("/api", (router: any) => {

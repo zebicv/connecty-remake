@@ -31,10 +31,11 @@ model User {
 
 // Later on we can add profile images, some other profile data, thats why we have separated profile from user
 model Profile {
-  id     Int    @id @default(autoincrement())
-  bio    String
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId String @unique
+  id             Int    @id @default(autoincrement())
+  bio            String
+  profilePicture String @map("profile_picture")
+  user           User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId         String @unique
 
   @@map("profiles")
 }
@@ -42,7 +43,7 @@ model Profile {
 model Post {
   id        String    @id @default(uuid())
   content   String    @db.MediumText
-  likes     Int
+  likes     Int       @default(0)
   createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime  @updatedAt @map("updated_at")
   author    User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
