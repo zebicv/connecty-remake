@@ -24,7 +24,7 @@ function PostItem({ post, comments }) {
           <img
             src="./src/assets/profile1.png"
             alt="Profile picture"
-            className="mr-4 h-8 w-8 rounded-full md:h-10 md:w-10"
+            className="mr-4 h-8 w-8 rounded-full object-cover md:h-10 md:w-10"
           />
 
           <div className="flex flex-col">
@@ -32,7 +32,7 @@ function PostItem({ post, comments }) {
             <p className="mt-[-3px] text-xxs md:text-xs">{date}</p>
           </div>
 
-          <span className="ml-auto">X</span>
+          <button className="ml-auto">X</button>
         </div>
 
         <p className="mb-2 sm:mb-2.5 md:mb-1.5">{content}</p>

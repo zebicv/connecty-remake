@@ -6,7 +6,7 @@ function CreatePost() {
       <img
         src="./src/assets/profile2.png"
         alt="Profile picture"
-        className="mr-1 h-8 w-8 rounded-full sm:h-10 sm:w-10 md:h-11 md:w-11"
+        className="mr-1 h-8 w-8 rounded-full object-cover sm:h-10 sm:w-10 md:h-11 md:w-11"
       />
       <div className="flex basis-full gap-2">
         <textarea
