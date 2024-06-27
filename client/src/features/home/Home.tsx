@@ -51,7 +51,7 @@ const comments = [
 
 function Home() {
   return (
-    <main className="mx-auto mt-11 flex max-w-96 flex-wrap items-center justify-center pb-24 text-xs sm:max-w-xl sm:text-sm md:max-w-2xl md:text-sm">
+    <main className="mx-auto mt-11 flex max-w-[95%] flex-wrap items-center justify-center pb-24 text-xs sm:max-w-xl sm:text-sm md:max-w-2xl md:text-sm">
       <CreatePost />
 
       <ul className="divide-y divide-stone-200">

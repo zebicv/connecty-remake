@@ -16,7 +16,7 @@ function CreateComment() {
         className="mr-1 h-8 w-8 rounded-full sm:h-10 sm:w-10 md:h-6 md:w-6"
       />
       <textarea
-        className="basis-full resize-none rounded-lg bg-gray-100 placeholder:text-stone-400 focus:outline-none focus:ring focus:ring-yellow-500 focus:ring-opacity-50"
+        className="basis-full resize-none rounded-lg bg-gray-100 placeholder:text-slate-400 focus:outline-none focus:ring focus:ring-yellow-500 focus:ring-opacity-50"
         placeholder={`Comment as USERNAME`}
         onChange={handleCreateComment}
       />
