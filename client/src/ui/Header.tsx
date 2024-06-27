@@ -1,16 +1,21 @@
-import { Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 import SearchPost from "../features/home/SearchPost";
 import NavigationMenu from "./NavigationMenu";
 
 function Header() {
+  const location = useLocation();
+  const currentPath = location.pathname;
+
   return (
-    <header className="sticky top-0 mb-16 flex h-16 items-center justify-between bg-yellow-400 pb-2 pl-4 pr-4 pt-2 shadow sm:mb-20 sm:pl-8 sm:pr-8 md:mb-32">
+    <header className="sticky top-0 mb-16 flex h-16 items-center justify-between bg-yellow-400 px-1.5 pb-2 pt-2 shadow sm:mb-20 sm:px-4 md:mb-32">
       <div>
-        <span className="text-sm font-semibold tracking-wider">connecty</span>
+        <span className="text-xs font-semibold tracking-wider sm:text-sm">
+          connecty
+        </span>
       </div>
 
-      <SearchPost />
+      {currentPath === "/home" && <SearchPost />}
 
       <NavigationMenu />
     </header>

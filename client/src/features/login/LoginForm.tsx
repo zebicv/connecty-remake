@@ -21,7 +21,7 @@ function LoginForm() {
           <h1 className="text-lg font-semibold">Sign in</h1>
           <button
             type="button"
-            className="text-sm text-yellow-600 underline underline-offset-4"
+            className="text-xs text-yellow-600 underline underline-offset-4 sm:text-sm"
             onClick={handleSwitch}
           >
             I don't have an account
@@ -39,7 +39,7 @@ function LoginForm() {
         </div>
 
         <div className="flex items-center justify-center">
-          <p className=" mt-2 text-xs font-light text-yellow-600 underline underline-offset-2">
+          <p className=" mt-2 text-xs font-light text-yellow-600 underline underline-offset-2 sm:text-sm">
             Can't sign in?
           </p>
         </div>

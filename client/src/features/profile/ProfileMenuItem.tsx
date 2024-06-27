@@ -5,7 +5,7 @@ function ProfileMenuItem({ item, index, activeTabIndex, handleActiveTab }) {
 
   return (
     <li
-      className={`flex cursor-pointer items-center  gap-2 py-3 pl-2 ${isActiveTab ? "border-l-4 border-yellow-400" : ""}`}
+      className={`flex cursor-pointer items-center  gap-2 py-3 pl-2 ${isActiveTab ? "border-l-4 border-yellow-400 font-semibold text-yellow-800" : ""} transition-all`}
       onClick={() => handleActiveTab(index)}
     >
       <div>{icon}</div>
