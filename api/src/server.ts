@@ -1,4 +1,5 @@
 import express from "express";
+import cors from "cors";
 import bodyParser from "body-parser";
 import path from "path";
 import dotenv from "dotenv";
@@ -12,7 +13,11 @@ import { userRoutes } from "./routes/userRoutes";
 import { authRoutes } from "./routes/auth";
 
 dotenv.config();
+// const express1 = require("express");
 const app = express();
+
+// Use CORS middleware
+app.use(cors());
 
 app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
 
@@ -42,6 +47,21 @@ app.use(fileUpload());
 
 authRoutes(app);
 userRoutes(app);
+
+// Add Access Control Allow Origin headers
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  next();
+});
+
+app.get("/api", (req, res) => {
+  res.json("Hello");
+});
 
 app.use(errorHandler);
 app.listen(PORT, () => {
