@@ -52,22 +52,6 @@ const comments = [
 ];
 
 function Home() {
-  useEffect(() => {
-    fetch("http://localhost:8080/api")
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        console.log(data);
-      })
-      .catch((error) => {
-        console.error("There was a problem with the fetch operation:", error);
-      });
-  }, []);
-
   return (
     <main className="mx-auto mt-11 flex max-w-[95%] flex-wrap items-center justify-center pb-24 text-xs sm:max-w-xl sm:text-sm md:max-w-2xl md:text-sm">
       <CreatePost />
@@ -82,3 +66,21 @@ function Home() {
 }
 
 export default Home;
+
+// useEffect(() => {
+//   fetch("http://localhost:8080/api/users")
+//     .then((response) => {
+//       console.log(response);
+//       if (!response.ok) {
+//         throw new Error("Network response was not ok");
+//       }
+//       return response.json();
+//     })
+//     .then((data) => {
+//       console.log(data);
+//     })
+//     .catch((error) => {
+//       console.log(error);
+//       console.error("There was a problem with the fetch operation:", error);
+//     });
+// }, []);
