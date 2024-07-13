@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 import SearchPost from "../features/home/SearchPost";
 import NavigationMenu from "./NavigationMenu";
 
-function Header() {
+function Header({ onChange }) {
   const location = useLocation();
   const currentPath = location.pathname;
 
@@ -15,7 +15,7 @@ function Header() {
         </span>
       </div>
 
-      {currentPath === "/home" && <SearchPost />}
+      {currentPath === "/home" && <SearchPost onChange={onChange} />}
 
       <NavigationMenu />
     </header>
