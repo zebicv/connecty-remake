@@ -2,6 +2,8 @@ import { useOutletContext } from "react-router-dom";
 
 import PostItem from "./PostItem";
 import CreatePost from "./CreatePost";
+import { useEffect } from "react";
+import axios from "axios";
 
 const posts = [
   {
@@ -61,6 +63,15 @@ function Home() {
             .includes(searchQuery.toLowerCase()),
         )
       : posts;
+
+  const fetchPosts = async () => {
+    const payload = await axios.get("/api/posts", {withCredentials: true});
+    console.log(payload);
+  }
+
+  useEffect(() => {
+    fetchPosts();
+  }, [])
 
   return (
     <main className="mx-auto mt-11 flex max-w-[95%] flex-wrap items-center justify-center pb-24 text-xs sm:max-w-xl sm:text-sm md:max-w-2xl md:text-sm">

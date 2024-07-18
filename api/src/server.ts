@@ -17,7 +17,7 @@ dotenv.config();
 const app = express();
 
 // Use CORS middleware
-app.use(cors());
+app.use(cors({ credentials: true, origin: "http://localhost:5173" }));
 
 app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
 
@@ -34,11 +34,16 @@ app.use(
     store: new RedisStore({ client: redisClient }),
     resave: false,
     saveUninitialized: true,
-    cookie: { maxAge: 1000 * 60 * 60 * 24 * 1, sameSite: "lax" }, // 1 day expiration
+    cookie: {
+      maxAge: 1000 * 60 * 60 * 24 * 1,
+      sameSite: "lax",
+      httpOnly: true,
+    }, // 1 day expiration
   })
 );
 app.use(passport.initialize());
 app.use(passport.session());
+
 import "./modules/auth/strategy/passport";
 import { postRoutes } from "./routes/posts";
 
@@ -51,15 +56,15 @@ userRoutes(app);
 postRoutes(app);
 
 // Add Access Control Allow Origin headers
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
-  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-  next();
-});
+// app.use((req, res, next) => {
+//   res.setHeader("Access-Control-Allow-Origin", "*");
+//   res.header(
+//     "Access-Control-Allow-Headers",
+//     "Origin, X-Requested-With, Content-Type, Accept"
+//   );
+//   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+//   next();
+// });
 
 app.get("/api", (req, res) => {
   res.json("Hello");
