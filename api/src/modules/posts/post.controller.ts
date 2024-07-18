@@ -71,8 +71,11 @@ export const getAllPosts = async (req: Request, res: Response) => {
     .send(RESTResponse.createResponse(true, HTTPResponses.OK, { posts }));
 };
 
-// :postid PUT
+// PUT :postid
 export const updatePost = async (req: Request, res: Response) => {};
 
-// :postid DELETE
+// DELETE :postid
 export const deletePost = async (req: Request, res: Response) => {};
+
+// GET :postid
+export const likePost = async (req: Request, res: Response) => {};

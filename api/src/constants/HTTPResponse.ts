@@ -10,4 +10,5 @@ export class HTTPResponses {
   static readonly INCORRECT_PASSWORD = "Incorrect password.";
   static readonly IMAGE_ALREADY_EXIST = "Image already exist in that folder.";
   static readonly POST_NOT_FOUND = "Post not found.";
+  static readonly USERNAME_EXIST = "Username ady exists.";
 }

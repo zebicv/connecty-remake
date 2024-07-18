@@ -27,6 +27,12 @@ export const register = async (req: Request, res: Response) => {
 
   // If user exists, throw an error (cannot register existing user)
   if (user) {
+    if (user.username === validatedPayload.data.username) {
+      throw new AppError(
+        HTTPResponses.USERNAME_EXIST,
+        HTTPStatusCode.USER_EXIST
+      );
+    }
     throw new AppError(HTTPResponses.USER_EXIST, HTTPStatusCode.USER_EXIST);
   }
 
