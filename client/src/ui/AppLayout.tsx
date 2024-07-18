@@ -1,13 +1,20 @@
 import { Outlet } from "react-router-dom";
+import { useState } from "react";
 
 import Header from "./Header";
 
 function AppLayout() {
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const handleSeachQuery = (query: string) => {
+    setSearchQuery(query);
+  };
+
   return (
     <div>
-      <Header />
+      <Header onChange={handleSeachQuery} />
 
-      <Outlet />
+      <Outlet context={[searchQuery, setSearchQuery]} />
     </div>
   );
 }

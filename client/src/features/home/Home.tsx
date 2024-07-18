@@ -1,21 +1,22 @@
+import { useOutletContext } from "react-router-dom";
+
 import PostItem from "./PostItem";
 import CreatePost from "./CreatePost";
 
 const posts = [
   {
     id: 1,
-    username: "Vanja Zebic",
-    content:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic",
+    username: "Marko Simic",
+    content: "Vanja je legenda najveca",
     date: "February 21st, 2023 09:46pm",
     likesNumber: 4,
     commentsNumber: 2,
   },
   {
     id: 2,
-    username: "Vanja Zebic",
+    username: "Boris Antonijev",
     content:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic",
+      " is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic",
     date: "February 21st 09:46pm",
     likesNumber: 4,
     commentsNumber: 2,
@@ -50,12 +51,23 @@ const comments = [
 ];
 
 function Home() {
+  const [searchQuery, setSearchQuery] = useOutletContext();
+
+  const searchedPosts =
+    searchQuery.length > 0
+      ? posts.filter((post) =>
+          `${post.username} ${post.content}`
+            .toLowerCase()
+            .includes(searchQuery.toLowerCase()),
+        )
+      : posts;
+
   return (
     <main className="mx-auto mt-11 flex max-w-[95%] flex-wrap items-center justify-center pb-24 text-xs sm:max-w-xl sm:text-sm md:max-w-2xl md:text-sm">
       <CreatePost />
 
       <ul className="divide-y divide-stone-200">
-        {posts.map((post) => (
+        {searchedPosts.map((post) => (
           <PostItem key={post.id} post={post} comments={comments} />
         ))}
       </ul>

@@ -13,7 +13,9 @@ const prisma: PrismaClient = new PrismaClient();
 
 export const register = async (req: Request, res: Response) => {
   const payload = req.body;
+  console.log("Received payload:", payload);
   const image: fileUpload.FileArray | null | undefined = req.files;
+  console.log("Received files:", image);
 
   // Validation
   const validatedPayload = RegisterDto.safeParse(payload);
