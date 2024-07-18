@@ -45,6 +45,7 @@ export const createPost = async (req: Request, res: Response) => {
 // :postid
 export const getPost = async (req: Request, res: Response) => {};
 
+// get all posts for user
 export const getPosts = async (req: Request, res: Response) => {
   const { id } = req.user as IUserSession;
 
@@ -57,6 +58,14 @@ export const getPosts = async (req: Request, res: Response) => {
     },
   });
 
+  return res
+    .status(HTTPStatusCode.OK)
+    .send(RESTResponse.createResponse(true, HTTPResponses.OK, { posts }));
+};
+
+// get all posts generally
+export const getAllPosts = async (req: Request, res: Response) => {
+  const posts = await prisma.post.findMany();
   return res
     .status(HTTPStatusCode.OK)
     .send(RESTResponse.createResponse(true, HTTPResponses.OK, { posts }));
