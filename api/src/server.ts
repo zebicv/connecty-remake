@@ -35,6 +35,7 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 import "./modules/auth/strategy/passport";
+import { postRoutes } from "./routes/posts";
 
 const PORT = process.env.PORT || 3000;
 
@@ -42,6 +43,7 @@ app.use(fileUpload());
 
 authRoutes(app);
 userRoutes(app);
+postRoutes(app);
 
 app.use(errorHandler);
 app.listen(PORT, () => {

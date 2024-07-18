@@ -1,3 +1,5 @@
 import { z } from "zod";
 
-export const CreatePostDto = z.object({});
+export const CreatePostDto = z.object({
+  content: z.string(),
+});
