@@ -45,7 +45,22 @@ export const createPost = async (req: Request, res: Response) => {
 // :postid
 export const getPost = async (req: Request, res: Response) => {};
 
-export const getPosts = async (req: Request, res: Response) => {};
+export const getPosts = async (req: Request, res: Response) => {
+  const { id } = req.user as IUserSession;
+
+  if (!id)
+    throw new AppError(HTTPResponses.INVALID_USER, HTTPStatusCode.UNAUTHORIZED);
+
+  const posts = await prisma.post.findMany({
+    where: {
+      authorId: id,
+    },
+  });
+
+  return res
+    .status(HTTPStatusCode.OK)
+    .send(RESTResponse.createResponse(true, HTTPResponses.OK, { posts }));
+};
 
 // :postid PUT
 export const updatePost = async (req: Request, res: Response) => {};
