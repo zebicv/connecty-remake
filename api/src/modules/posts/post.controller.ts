@@ -118,20 +118,42 @@ export const likePost = async (req: Request, res: Response) => {
 
   if (!validatedPayload.success) throw validatedPayload.error;
 
-  await prisma.post.update({
-    where: {
-      id,
-    },
-    data: {
-      likes: {
-        increment: 1,
-      },
-    },
-  });
+  try {
+    await prisma.$transaction(async () => {
+      await prisma.post.update({
+        where: {
+          id,
+        },
+        data: {
+          likes: {
+            increment: 1,
+          },
+        },
+      });
 
-  return res.status(HTTPStatusCode.OK).send(
-    RESTResponse.createResponse(true, HTTPResponses.OK, {
-      message: "Post successfully liked.",
-    })
-  );
+      await prisma.likedBy.create({
+        data: {
+          postId: id,
+          userId: validatedPayload.data.authorId,
+        },
+      });
+    });
+    return res.status(HTTPStatusCode.OK).send(
+      RESTResponse.createResponse(true, HTTPResponses.OK, {
+        message: "Post successfully liked.",
+      })
+    );
+  } catch (error) {
+    return res
+      .status(500)
+      .send(
+        RESTResponse.createResponse(
+          false,
+          HTTPResponses.INTERNAL_SERVER_ERROR,
+          { error }
+        )
+      );
+  } finally {
+    await prisma.$disconnect();
+  }
 };
