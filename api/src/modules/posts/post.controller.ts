@@ -72,7 +72,27 @@ export const getAllPosts = async (req: Request, res: Response) => {
 };
 
 // PUT :postid
-export const updatePost = async (req: Request, res: Response) => {};
+export const updatePost = async (req: Request, res: Response) => {
+  const id = req.params.id;
+  const payload = req.body;
+
+  const validatedPayload = CreatePostDto.safeParse(payload);
+
+  if (!validatedPayload.success) throw validatedPayload.error;
+
+  const post = await prisma.post.update({
+    where: {
+      id: id,
+    },
+    data: {
+      content: validatedPayload.data.content,
+    },
+  });
+
+  return res
+    .status(HTTPStatusCode.NO_CONTENT)
+    .send(RESTResponse.createResponse(true, HTTPResponses.NO_CONTENT, {}));
+};
 
 // DELETE :postid
 export const deletePost = async (req: Request, res: Response) => {};

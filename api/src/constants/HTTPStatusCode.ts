@@ -7,5 +7,6 @@ export class HTTPStatusCode {
   static readonly OK = 201;
   static readonly CREATED = 200;
   static readonly ACCEPTED = 202;
+  static readonly NO_CONTENT = 204;
   static readonly NOT_FOUND = 404;
 }
