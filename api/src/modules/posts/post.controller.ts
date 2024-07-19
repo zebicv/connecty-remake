@@ -38,8 +38,8 @@ export const createPost = async (req: Request, res: Response) => {
   });
 
   return res
-    .status(HTTPStatusCode.OK)
-    .send(RESTResponse.createResponse(true, HTTPResponses.OK, { post }));
+    .status(HTTPStatusCode.CREATED)
+    .send(RESTResponse.createResponse(true, HTTPResponses.CREATED, { post }));
 };
 
 // :postid
@@ -95,7 +95,18 @@ export const updatePost = async (req: Request, res: Response) => {
 };
 
 // DELETE :postid
-export const deletePost = async (req: Request, res: Response) => {};
+export const deletePost = async (req: Request, res: Response) => {
+  const id = req.params.id;
+
+  await prisma.post.delete({
+    where: {
+      id,
+    },
+  });
+  return res
+    .status(HTTPStatusCode.OK)
+    .send(RESTResponse.createResponse(true, HTTPResponses.OK, {}));
+};
 
 // GET :postid
 export const likePost = async (req: Request, res: Response) => {};

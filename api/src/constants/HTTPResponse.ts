@@ -12,4 +12,5 @@ export class HTTPResponses {
   static readonly POST_NOT_FOUND = "Post not found.";
   static readonly USERNAME_EXIST = "Username ady exists.";
   static readonly NO_CONTENT = "No Content.";
+  static readonly CREATED = "Created.";
 }
