@@ -5,6 +5,7 @@ import {
   deletePost,
   getAllPosts,
   getPosts,
+  likePost,
   updatePost,
 } from "../modules/posts/post.controller";
 import { isLoggedIn } from "../modules/auth/strategy/passport";
@@ -16,6 +17,7 @@ export function postRoutes(app: any): Application {
     router.get("/all", isLoggedIn, safeParse(getAllPosts));
     router.put("/:id", isLoggedIn, safeParse(updatePost));
     router.delete("/:id", isLoggedIn, safeParse(deletePost));
+    router.post("/:id", isLoggedIn, safeParse(likePost));
   });
 
   return app;

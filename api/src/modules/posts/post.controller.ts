@@ -6,6 +6,7 @@ import RESTResponse from "../../utils/RESTResponse";
 import { HTTPResponses } from "../../constants/HTTPResponse";
 import { AppError } from "../../utils/AppError";
 import { IUserSession } from "../../types/user.type";
+import { LikePostDto } from "./dtos/likePost.dto";
 
 const prisma: PrismaClient = new PrismaClient();
 
@@ -109,4 +110,28 @@ export const deletePost = async (req: Request, res: Response) => {
 };
 
 // GET :postid
-export const likePost = async (req: Request, res: Response) => {};
+export const likePost = async (req: Request, res: Response) => {
+  const id = req.params.id;
+  const payload = req.body;
+
+  const validatedPayload = LikePostDto.safeParse(payload);
+
+  if (!validatedPayload.success) throw validatedPayload.error;
+
+  await prisma.post.update({
+    where: {
+      id,
+    },
+    data: {
+      likes: {
+        increment: 1,
+      },
+    },
+  });
+
+  return res.status(HTTPStatusCode.OK).send(
+    RESTResponse.createResponse(true, HTTPResponses.OK, {
+      message: "Post successfully liked.",
+    })
+  );
+};
