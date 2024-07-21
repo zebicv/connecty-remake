@@ -34,3 +34,28 @@ export function formatLabel(input: string) {
 
   return formattedInput;
 }
+
+export function formatDate(input: string) {
+  const isoString = input;
+  const date = new Date(isoString);
+
+  const options = {
+    hour: "numeric",
+    minute: "numeric",
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+    weekday: "long",
+  };
+
+  const formattedDate = new Intl.DateTimeFormat("locale", options).format(date);
+  return formattedDate;
+}
+
+export function sortNewest(arr: []) {
+  const sorted = arr.sort(
+    (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+  );
+
+  return sorted;
+}

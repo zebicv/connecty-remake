@@ -5,17 +5,26 @@ import { useState } from "react";
 
 import CommentItem from "./CommentItem";
 import CreateComment from "./CreateComment";
+import { deletePost } from "../../services/apiPosts";
+import { formatDate } from "../../utils/helpers";
 
-function PostItem({ post, comments }) {
+function PostItem({ post, comments = "", onDeletePost }) {
   const [isCommentVisible, setIsCommentVisible] = useState(false);
 
+  const { id, content, createdAt, authorId, likes } = post;
+
+  const formattedDate = formatDate(createdAt);
+
   const handleLikePost = () => {};
+
+  const handleDeletePost = () => {
+    onDeletePost(id);
+    deletePost(id);
+  };
 
   const handleCommentPost = () => {
     setIsCommentVisible((currState) => !currState);
   };
-
-  const { id, username, content, date, likesNumber, commentsNumber } = post;
 
   return (
     <li className="mb-5 basis-full sm:mb-6">
@@ -29,15 +38,15 @@ function PostItem({ post, comments }) {
 
           <div className="flex flex-col">
             <p className="basis-full text-[13px] font-bold sm:text-sm">
-              {username}
+              {authorId}
             </p>
             <p className="mt-[-1px] text-xxs text-slate-400 sm:text-xs md:text-xs">
-              {date}
+              {formattedDate}
             </p>
           </div>
 
           <IconContext.Provider value={{ size: "16px" }}>
-            <button className="ml-auto">
+            <button className="ml-auto" onClick={handleDeletePost}>
               <AiIcons.AiOutlineClose />
             </button>
           </IconContext.Provider>
@@ -74,11 +83,11 @@ function PostItem({ post, comments }) {
         {isCommentVisible && <CreateComment />}
       </div>
 
-      <ul>
+      {/* <ul>
         {comments.map((comment) => (
           <CommentItem key={comment.id} comment={comment} />
         ))}
-      </ul>
+      </ul> */}
     </li>
   );
 }

@@ -31,6 +31,25 @@ const NavigationMenu = () => {
 
   const showSidebar = () => setSidebar(!sidebar);
 
+  const handleLogout = async (item) => {
+    const isLogout = item.title === "Logout" ? true : false;
+    // console.log(document.cookie.split(";"));
+
+    if (isLogout) {
+      const response = await fetch("http://localhost:8080/api/auth/logout", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      console.log(response);
+    } else {
+      return;
+    }
+  };
+
   return (
     <>
       <IconContext.Provider value={{ color: "#F9FAFB" }}>
@@ -57,7 +76,11 @@ const NavigationMenu = () => {
             </li>
             {SidebarData.map((item, index) => {
               return (
-                <li key={index} className={item.cName}>
+                <li
+                  key={index}
+                  className={item.cName}
+                  onClick={() => handleLogout(item)}
+                >
                   <Link
                     to={item.path}
                     className="flex h-full w-[95%] items-center rounded-md px-2 text-sm text-slate-700  no-underline hover:bg-yellow-400 sm:text-base md:text-lg"

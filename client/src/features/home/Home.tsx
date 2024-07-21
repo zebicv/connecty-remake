@@ -2,10 +2,12 @@ import { useOutletContext } from "react-router-dom";
 
 import PostItem from "./PostItem";
 import CreatePost from "./CreatePost";
-import { useEffect } from "react";
-import axios from "axios";
+import { useEffect, useState } from "react";
+// import axios from "axios";
+import { getAllPosts, createPost } from "../../services/apiPosts";
+import { sortNewest } from "../../utils/helpers";
 
-const posts = [
+const dummyPosts = [
   {
     id: 1,
     username: "Marko Simic",
@@ -54,34 +56,75 @@ const comments = [
 
 function Home() {
   const [searchQuery, setSearchQuery] = useOutletContext();
+  const [posts, setPosts] = useState([]);
+
+  // const searchedPosts =
+  //   searchQuery.length > 0
+  //     ? posts.filter((post) =>
+  //         `${post.username} ${post.content}`
+  //           .toLowerCase()
+  //           .includes(searchQuery.toLowerCase()),
+  //       )
+  //     : posts;
+
+  // const sortedPosts = sortNewest(posts);
 
   const searchedPosts =
     searchQuery.length > 0
       ? posts.filter((post) =>
-          `${post.username} ${post.content}`
-            .toLowerCase()
-            .includes(searchQuery.toLowerCase()),
+          `${post.content}`.toLowerCase().includes(searchQuery.toLowerCase()),
         )
       : posts;
 
-  const fetchPosts = async () => {
-    const payload = await axios.get("/api/posts", {withCredentials: true});
-    console.log(payload);
-  }
-
   useEffect(() => {
-    fetchPosts();
-  }, [])
+    const loadPosts = async () => {
+      const initalPosts = await getAllPosts();
+      const sortedPosts = sortNewest(initalPosts);
+      setPosts(sortedPosts);
+    };
+    loadPosts();
+  }, []);
+
+  const handleCreatePost = async (content: string) => {
+    try {
+      const newPost = await createPost(content);
+
+      setPosts((curPosts) => {
+        const updatedPosts = [...curPosts, newPost];
+        const sortedPosts = sortNewest(updatedPosts);
+
+        return sortedPosts;
+      });
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
+
+  const handleDeletePost = (id: string) => {
+    const updatedPosts = posts.filter((postItem) => postItem.id !== id);
+    setPosts(updatedPosts);
+  };
 
   return (
     <main className="mx-auto mt-11 flex max-w-[95%] flex-wrap items-center justify-center pb-24 text-xs sm:max-w-xl sm:text-sm md:max-w-2xl md:text-sm">
-      <CreatePost />
+      <CreatePost handleCreatePost={handleCreatePost} />
 
-      <ul className="divide-y divide-stone-200">
+      <ul className="grow divide-y divide-stone-200">
         {searchedPosts.map((post) => (
-          <PostItem key={post.id} post={post} comments={comments} />
+          <PostItem key={post.id} post={post} onDeletePost={handleDeletePost} />
         ))}
       </ul>
+
+      {/* <ul className="divide-y divide-stone-200">
+        {dummyPosts.map((post) => (
+          <PostItem
+            key={post.id}
+            post={post}
+            comments={comments}
+            onDeletePost={handleDeletePost}
+          />
+        ))}
+      </ul> */}
     </main>
   );
 }

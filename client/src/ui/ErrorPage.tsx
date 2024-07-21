@@ -11,8 +11,6 @@ function ErrorPage() {
       </h1>
 
       <div className="mb-2 md:text-lg">
-        <p>{error.data || error.message}</p>
-
         <p>Try going back to the previous page:</p>
       </div>
 

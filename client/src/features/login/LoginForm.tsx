@@ -9,10 +9,11 @@ import ErrorMessage from "../../ui/ErrorMessage";
 function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errors, setErrors] = useState({
-    email: "",
-    password: "",
-  });
+  const [error, setError] = useState("");
+  // const [errors, setErrors] = useState({
+  //   email: "",
+  //   password: "",
+  // });
 
   const navigate = useNavigate();
 
@@ -22,10 +23,11 @@ function LoginForm() {
 
   const handlePassword = (password: string) => {
     setPassword(password);
-    setErrors((curState) => ({
-      ...curState,
-      password: "",
-    }));
+    setError("");
+    // setErrors((curState) => ({
+    //   ...curState,
+    //   password: "",
+    // }));
   };
 
   const handleOnSubmit = async (e) => {
@@ -44,14 +46,17 @@ function LoginForm() {
         }),
       });
 
-      if (response.status === 500) throw new Error("Password is not correct");
+      console.log(response);
+
+      if (response.status === 500)
+        throw new Error("Email or password is not correct");
+
+      const data = await response.json();
+      console.log(data);
 
       navigate("/home");
     } catch (error) {
-      setErrors({
-        email: "",
-        password: error.message,
-      });
+      setError(error.message);
     }
   };
 
@@ -84,7 +89,7 @@ function LoginForm() {
             placeholder="me@example.com"
             onChange={handleEmail}
           />
-          {errors.email && <ErrorMessage>{errors.email}</ErrorMessage>}
+          {/* {errors.email && <ErrorMessage>{errors.email}</ErrorMessage>} */}
         </div>
         <div>
           <Input
@@ -93,7 +98,12 @@ function LoginForm() {
             placeholder="*********"
             onChange={handlePassword}
           />
-          {errors.password && <ErrorMessage>{errors.password}</ErrorMessage>}
+          {/* {errors.password && <ErrorMessage>{errors.password}</ErrorMessage>} */}
+          {error && (
+            <ul>
+              <ErrorMessage>{error}</ErrorMessage>
+            </ul>
+          )}
         </div>
 
         <div className="flex justify-between gap-4">
