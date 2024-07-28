@@ -1,7 +1,7 @@
 import passport, { use } from "passport";
 import { Strategy } from "passport-local";
 import * as bcrypt from "bcrypt";
-import { User } from "@prisma/client";
+import { Role, User } from "@prisma/client";
 import prisma from "../../../database/client";
 import { HTTPResponses } from "../../../constants/HTTPResponse";
 import { DeserializedUser } from "../dtos/deserializedUser.dto";
@@ -30,6 +30,8 @@ passport.deserializeUser(async (id: string, done) => {
   if (!payload) return done("No user to deserialize");
   const user: DeserializedUser = {
     id: payload.id,
+    email: payload.email,
+    username: payload.username,
   };
   return done(null, user);
 });

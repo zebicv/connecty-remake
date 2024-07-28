@@ -61,10 +61,16 @@ export const register = async (req: Request, res: Response) => {
           userId: newUser.id,
         },
       });
+      return res
+        .status(201)
+        .send(
+          RESTResponse.createResponse(true, HTTPResponses.OK, {
+            id: newUser.id,
+            email: newUser.email,
+            username: newUser.username,
+          })
+        );
     });
-    return res
-      .status(201)
-      .send(RESTResponse.createResponse(true, HTTPResponses.OK, {}));
   } catch (error) {
     console.log("Transaction failed: ", error);
     return res
@@ -82,10 +88,14 @@ export const register = async (req: Request, res: Response) => {
 };
 
 export const login = async (req: Request, res: Response) => {
-  const session = req.session;
-  return res
-    .status(201)
-    .send(RESTResponse.createResponse(true, HTTPResponses.OK, { session }));
+  const user = req.user as User;
+  return res.status(201).send(
+    RESTResponse.createResponse(true, HTTPResponses.OK, {
+      id: user.id,
+      email: user.email,
+      username: user.username,
+    })
+  );
 };
 
 export const logout = async (req: Request, res: Response) => {
