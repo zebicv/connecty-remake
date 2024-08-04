@@ -27,4 +27,14 @@ export const createComment = async (req: Request, res: Response) => {
     );
 };
 
-export const getAllComments = async (req: Request, res: Response) => {};
+export const deleteComment = async (req: Request, res: Response) => {
+  const commentId = req.params.id;
+  await prisma.comment.delete({
+    where: {
+      id: commentId,
+    },
+  });
+  return res
+    .status(HTTPStatusCode.OK)
+    .send(RESTResponse.createResponse(true, HTTPResponses.OK, {}));
+};
