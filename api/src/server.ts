@@ -46,6 +46,7 @@ app.use(passport.session());
 
 import "./modules/auth/strategy/passport";
 import { postRoutes } from "./routes/posts";
+import { commentsRoutes } from "./routes/comments";
 
 const PORT = process.env.PORT || 3000;
 
@@ -54,6 +55,7 @@ app.use(fileUpload());
 authRoutes(app);
 userRoutes(app);
 postRoutes(app);
+commentsRoutes(app);
 
 // Add Access Control Allow Origin headers
 // app.use((req, res, next) => {

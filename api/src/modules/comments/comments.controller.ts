@@ -3,13 +3,13 @@ import { HTTPStatusCode } from "../../constants/HTTPStatusCode";
 import RESTResponse from "../../utils/RESTResponse";
 import { HTTPResponses } from "../../constants/HTTPResponse";
 import { CreateCommentDto } from "./dtos/createComment.dto";
-import { PrismaClient } from "@prisma/client";
-import { AppError } from "../../utils/AppError";
+import { PrismaClient, User } from "@prisma/client";
 
 const prisma: PrismaClient = new PrismaClient();
 
 export const createComment = async (req: Request, res: Response) => {
   const payload = req.body;
+  const user = req.user as User;
   const validatedPayload = CreateCommentDto.safeParse(payload);
   if (!validatedPayload.success) throw validatedPayload.error;
 
@@ -17,11 +17,11 @@ export const createComment = async (req: Request, res: Response) => {
     data: {
       content: validatedPayload.data.content,
       postId: validatedPayload.data.postId,
-      userId: validatedPayload.data.authorId,
+      userId: user.id,
     },
   });
   return res
-    .send(HTTPStatusCode.CREATED)
+    .status(HTTPStatusCode.CREATED)
     .send(
       RESTResponse.createResponse(true, HTTPResponses.CREATED, { comment })
     );

@@ -66,7 +66,22 @@ export const getPosts = async (req: Request, res: Response) => {
 
 // get all posts generally
 export const getAllPosts = async (req: Request, res: Response) => {
-  const posts = await prisma.post.findMany();
+  const posts = await prisma.post.findMany({
+    include: {
+      comments: {
+        include: {
+          user: {
+            select: {
+              id: true,
+              email: true,
+              username: true,
+            },
+          },
+        },
+      },
+      likedBy: true,
+    },
+  });
   return res
     .status(HTTPStatusCode.OK)
     .send(RESTResponse.createResponse(true, HTTPResponses.OK, { posts }));

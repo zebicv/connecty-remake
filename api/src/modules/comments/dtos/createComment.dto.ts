@@ -1,7 +1,6 @@
-import {z} from "zod";
+import { z } from "zod";
 
 export const CreateCommentDto = z.object({
-    content: z.string(),
-    postId: z.string(),
-    authorId: z.string()
-})
+  content: z.string(),
+  postId: z.string(),
+});
