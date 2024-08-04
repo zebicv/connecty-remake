@@ -57,6 +57,20 @@ export const getPosts = async (req: Request, res: Response) => {
     where: {
       authorId: id,
     },
+    include: {
+      comments: {
+        include: {
+          user: {
+            select: {
+              id: true,
+              email: true,
+              username: true,
+            },
+          },
+        },
+      },
+      likedBy: true,
+    },
   });
 
   return res
