@@ -3,6 +3,8 @@ import { useState } from "react";
 function CreatePost({ handleCreatePost }) {
   const [content, setContent] = useState("");
 
+  const currentUser = localStorage.getItem("currentUser")?.split(";")[1];
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -24,7 +26,7 @@ function CreatePost({ handleCreatePost }) {
           rows="1"
           name="create_post"
           className="flex-1 resize-none rounded-full px-2 py-2 text-sm placeholder:text-xxs placeholder:text-slate-400 focus:outline-none focus:ring focus:ring-yellow-500 focus:ring-opacity-50 sm:px-3 sm:py-3 sm:placeholder:text-xs md:px-4 md:py-4 md:placeholder:text-sm"
-          placeholder="What's on your mind, ${USERNAME}?"
+          placeholder={`What's on your mind, ${currentUser}?`}
         ></textarea>
         <button
           className="rounded-lg bg-yellow-400 px-2.5 py-2.5 font-semibold tracking-tight text-stone-700 focus:outline-none focus:ring focus:ring-yellow-300 focus:ring-offset-2 sm:px-4 sm:py-3 sm:text-sm"

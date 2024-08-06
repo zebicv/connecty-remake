@@ -52,7 +52,13 @@ function LoginForm() {
         throw new Error("Email or password is not correct");
 
       const data = await response.json();
+      const authorizedId = data.data.id;
+      const authorizedUsername = data.data.username;
       console.log(data);
+      localStorage.setItem(
+        "currentUser",
+        `${authorizedId};${authorizedUsername}`,
+      );
 
       navigate("/home");
     } catch (error) {

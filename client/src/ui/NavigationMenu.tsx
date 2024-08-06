@@ -33,7 +33,8 @@ const NavigationMenu = () => {
 
   const handleLogout = async (item) => {
     const isLogout = item.title === "Logout" ? true : false;
-    // console.log(document.cookie.split(";"));
+
+    if (!isLogout) return;
 
     if (isLogout) {
       const response = await fetch("http://localhost:8080/api/auth/logout", {
@@ -43,6 +44,8 @@ const NavigationMenu = () => {
           "Content-Type": "application/json",
         },
       });
+
+      localStorage.removeItem("currentUser");
 
       console.log(response);
     } else {

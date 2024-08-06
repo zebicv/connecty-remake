@@ -3,13 +3,18 @@ import { IconContext } from "react-icons";
 
 import { useState } from "react";
 
-function CreateComment() {
-  function handleCreateComment(e) {
-    console.log(e.target.value);
-  }
+function CreateComment({ postId, handleCreateComment }) {
+  const [content, setContent] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    handleCreateComment(content);
+    setContent("");
+  };
 
   return (
-    <div className="mt-6 flex items-center">
+    <form className="mt-6 flex items-center" onSubmit={handleSubmit}>
       <img
         src="./src/assets/profile2.png"
         alt="Profile picture"
@@ -18,14 +23,15 @@ function CreateComment() {
       <textarea
         className="basis-full resize-none rounded-lg bg-gray-100 placeholder:text-slate-400 focus:outline-none focus:ring focus:ring-yellow-500 focus:ring-opacity-50"
         placeholder={`Comment as USERNAME`}
-        onChange={handleCreateComment}
+        value={content}
+        onChange={(e) => setContent(e.target.value)}
       />
-      <button>
+      <button type="submit">
         <IconContext.Provider value={{ size: "28px", color: "rgb(234 179 8)" }}>
           <GiPlayButton />
         </IconContext.Provider>
       </button>
-    </div>
+    </form>
   );
 }
 

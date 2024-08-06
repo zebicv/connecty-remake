@@ -1,7 +1,28 @@
 import * as AiIcons from "react-icons/ai";
 
-function CommentItem({ comment }) {
-  const { content, id, postId, username, date } = comment;
+import { formatDate } from "../../utils/helpers";
+import { deleteComment } from "../../services/apiPosts";
+
+function CommentItem({ comment, handleDeleteComment, postAuthorId }) {
+  const {
+    id: commentId,
+    content,
+    user,
+    createdAt,
+    userId: commentAuthorId,
+  } = comment;
+
+  const username = user?.username;
+  const formattedDate = formatDate(createdAt);
+  const currentUserId = localStorage.getItem("currentUser")?.split(";")[0];
+
+  const isAuthorizedToDelete =
+    currentUserId === commentAuthorId || currentUserId === postAuthorId;
+
+  const handleDelete = () => {
+    deleteComment(commentId);
+    handleDeleteComment(commentId);
+  };
 
   return (
     <li className="mb-2 flex gap-x-0.5 pl-3 sm:gap-x-2 md:mb-2.5 md:gap-x-2">
@@ -20,13 +41,15 @@ function CommentItem({ comment }) {
               {username}
             </p>
             <p className="mt-[-2px] text-xxs text-slate-400 sm:text-xs">
-              {date}
+              {formattedDate}
             </p>
           </div>
 
-          <button className="ml-auto">
-            <AiIcons.AiOutlineClose />
-          </button>
+          {isAuthorizedToDelete && (
+            <button className="ml-auto" onClick={handleDelete}>
+              <AiIcons.AiOutlineClose />
+            </button>
+          )}
         </div>
 
         <p className="text-xs font-medium sm:text-sm">{content}</p>

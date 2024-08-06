@@ -3,27 +3,56 @@ import * as FaIcons from "react-icons/fa";
 import { IconContext } from "react-icons";
 import { useState } from "react";
 
-import CommentItem from "./CommentItem";
+import CommentsList from "./CommentsList";
 import CreateComment from "./CreateComment";
-import { deletePost } from "../../services/apiPosts";
+import { createComment, deletePost } from "../../services/apiPosts";
 import { formatDate } from "../../utils/helpers";
 
-function PostItem({ post, comments = "", onDeletePost }) {
+function PostItem({ post, onDeletePost }) {
   const [isCommentVisible, setIsCommentVisible] = useState(false);
+  const [commentsOnPost, setCommentsOnPost] = useState(() =>
+    post.comments ? post.comments : [],
+  );
 
-  const { id, content, createdAt, authorId, likes } = post;
+  const {
+    id: postId,
+    content,
+    createdAt,
+    authorId: postAuthorId,
+    likes,
+    comments,
+  } = post;
+
+  const currentUserId: string | null = localStorage
+    .getItem("currentUser")
+    ?.split(";")[0];
 
   const formattedDate = formatDate(createdAt);
 
   const handleLikePost = () => {};
 
   const handleDeletePost = () => {
-    onDeletePost(id);
-    deletePost(id);
+    onDeletePost(postId);
+    deletePost(postId);
   };
 
   const handleCommentPost = () => {
     setIsCommentVisible((currState) => !currState);
+  };
+
+  const handleCreateComment = async (content: string) => {
+    const newComment = await createComment(content, postId);
+
+    setCommentsOnPost((currState) => {
+      return [...currState, newComment];
+    });
+  };
+
+  const handleDeleteComment = (id: string) => {
+    const updatedCommentsOnPost = commentsOnPost.filter(
+      (commentItem) => commentItem.id !== id,
+    );
+    setCommentsOnPost(updatedCommentsOnPost);
   };
 
   return (
@@ -38,18 +67,20 @@ function PostItem({ post, comments = "", onDeletePost }) {
 
           <div className="flex flex-col">
             <p className="basis-full text-[13px] font-bold sm:text-sm">
-              {authorId}
+              {postAuthorId}
             </p>
             <p className="mt-[-1px] text-xxs text-slate-400 sm:text-xs md:text-xs">
               {formattedDate}
             </p>
           </div>
 
-          <IconContext.Provider value={{ size: "16px" }}>
-            <button className="ml-auto" onClick={handleDeletePost}>
-              <AiIcons.AiOutlineClose />
-            </button>
-          </IconContext.Provider>
+          {currentUserId === postAuthorId && (
+            <IconContext.Provider value={{ size: "16px" }}>
+              <button className="ml-auto" onClick={handleDeletePost}>
+                <AiIcons.AiOutlineClose />
+              </button>
+            </IconContext.Provider>
+          )}
         </div>
 
         <p className="mb-2 text-xs font-medium sm:mb-2.5 sm:text-sm md:mb-1.5">
@@ -57,8 +88,8 @@ function PostItem({ post, comments = "", onDeletePost }) {
         </p>
 
         <div className="mb-2.5 flex cursor-pointer items-center justify-between text-xs font-medium text-slate-400 sm:mb-3 sm:text-sm md:mb-1 md:text-sm">
-          <span>5 likes</span>
-          <span>2 comments</span>
+          <span>{likes} likes</span>
+          <span>{commentsOnPost && commentsOnPost?.length} comments</span>
         </div>
 
         <IconContext.Provider value={{ size: "20px" }}>
@@ -80,14 +111,21 @@ function PostItem({ post, comments = "", onDeletePost }) {
           </div>
         </IconContext.Provider>
 
-        {isCommentVisible && <CreateComment />}
+        {isCommentVisible && (
+          <CreateComment
+            postId={postId}
+            handleCreateComment={handleCreateComment}
+          />
+        )}
       </div>
 
-      {/* <ul>
-        {comments.map((comment) => (
-          <CommentItem key={comment.id} comment={comment} />
-        ))}
-      </ul> */}
+      {commentsOnPost && (
+        <CommentsList
+          commentsOnPost={commentsOnPost}
+          handleDeleteComment={handleDeleteComment}
+          postAuthorId={postAuthorId}
+        />
+      )}
     </li>
   );
 }
