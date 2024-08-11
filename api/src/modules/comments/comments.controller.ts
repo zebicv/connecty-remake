@@ -19,6 +19,13 @@ export const createComment = async (req: Request, res: Response) => {
       postId: validatedPayload.data.postId,
       userId: user.id,
     },
+    include: {
+      user: {
+        select: {
+          username: true,
+        },
+      },
+    },
   });
   return res
     .status(HTTPStatusCode.CREATED)
