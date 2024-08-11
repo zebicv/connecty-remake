@@ -70,6 +70,11 @@ export const getPosts = async (req: Request, res: Response) => {
         },
       },
       likedBy: true,
+      author: {
+        select: {
+          username: true,
+        },
+      },
     },
   });
 
@@ -94,6 +99,11 @@ export const getAllPosts = async (req: Request, res: Response) => {
         },
       },
       likedBy: true,
+      author: {
+        select: {
+          username: true,
+        },
+      },
     },
   });
   return res
