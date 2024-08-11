@@ -166,13 +166,20 @@ export const likePost = async (req: Request, res: Response) => {
 
   try {
     await prisma.$transaction(async () => {
-      await prisma.post.update({
+      const post = await prisma.post.update({
         where: {
           id,
         },
         data: {
           likes: {
             increment: 1,
+          },
+        },
+        include: {
+          author: {
+            select: {
+              username: true,
+            },
           },
         },
       });
@@ -183,12 +190,12 @@ export const likePost = async (req: Request, res: Response) => {
           userId: validatedPayload.data.authorId,
         },
       });
+      return res.status(HTTPStatusCode.OK).send(
+        RESTResponse.createResponse(true, HTTPResponses.OK, {
+          post,
+        })
+      );
     });
-    return res.status(HTTPStatusCode.OK).send(
-      RESTResponse.createResponse(true, HTTPResponses.OK, {
-        message: "Post successfully liked.",
-      })
-    );
   } catch (error) {
     return res
       .status(500)
