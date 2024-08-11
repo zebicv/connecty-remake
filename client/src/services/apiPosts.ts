@@ -46,6 +46,24 @@ export const deletePost = async (id: string) => {
   }
 };
 
+export const likePost = async (postId: string, authorId: string) => {
+  try {
+    const response = await fetch(`http://localhost:8080/api/posts/${postId}`, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ authorId }),
+    });
+
+    const data = await response.json();
+    console.log(data);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 export const createComment = async (content: string, id: string) => {
   try {
     const response = await fetch("http://localhost:8080/api/comments", {

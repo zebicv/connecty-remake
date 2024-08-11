@@ -9,6 +9,7 @@ import { sortNewest } from "../../utils/helpers";
 function Home() {
   const [searchQuery, setSearchQuery] = useOutletContext();
   const [posts, setPosts] = useState([]);
+  console.log(posts);
 
   const searchedPosts =
     searchQuery.length > 0
@@ -29,6 +30,7 @@ function Home() {
   const handleCreatePost = async (content: string) => {
     try {
       const newPost = await createPost(content);
+      console.log(newPost);
 
       setPosts((curPosts) => {
         const updatedPosts = [...curPosts, newPost];

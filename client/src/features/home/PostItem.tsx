@@ -5,14 +5,19 @@ import { useState } from "react";
 
 import CommentsList from "./CommentsList";
 import CreateComment from "./CreateComment";
-import { createComment, deletePost } from "../../services/apiPosts";
+import { createComment, deletePost, likePost } from "../../services/apiPosts";
 import { formatDate } from "../../utils/helpers";
 
 function PostItem({ post, onDeletePost }) {
+  /* KADA TI VRATI CEO POST OBJEKAT KAO RESPONSE SA BACKENDA, TADA CES POZVATI setPostObject I TAKO CES PONOVO RENDEROVATI SAMO OVAJ JEDAN POST, A NE DA U HOME COMPOMNENTU UPDATE-UJES CEO POSTS ARRAY, JER BI TO DOVELO DO RENDEROVANJA SVIH POSTOVA PONOVO */
+  // const [postObject, setPostObject] = useState(post);
+
   const [isCommentVisible, setIsCommentVisible] = useState(false);
   const [commentsOnPost, setCommentsOnPost] = useState(() =>
     post.comments ? post.comments : [],
   );
+  console.log(commentsOnPost);
+  console.log(post);
 
   const {
     id: postId,
@@ -29,7 +34,9 @@ function PostItem({ post, onDeletePost }) {
 
   const formattedDate = formatDate(createdAt);
 
-  const handleLikePost = () => {};
+  const handleLikePost = () => {
+    likePost(postId, postAuthorId);
+  };
 
   const handleDeletePost = () => {
     onDeletePost(postId);
@@ -42,6 +49,7 @@ function PostItem({ post, onDeletePost }) {
 
   const handleCreateComment = async (content: string) => {
     const newComment = await createComment(content, postId);
+    console.log(newComment);
 
     setCommentsOnPost((currState) => {
       return [...currState, newComment];
