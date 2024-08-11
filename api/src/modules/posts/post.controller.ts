@@ -36,6 +36,13 @@ export const createPost = async (req: Request, res: Response) => {
       content: validatedPayload.data.content,
       authorId: user.id,
     },
+    include: {
+      author: {
+        select: {
+          username: true,
+        },
+      },
+    },
   });
 
   return res
