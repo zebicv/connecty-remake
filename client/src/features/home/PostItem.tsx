@@ -9,15 +9,11 @@ import { createComment, deletePost, likePost } from "../../services/apiPosts";
 import { formatDate } from "../../utils/helpers";
 
 function PostItem({ post, onDeletePost }) {
-  /* KADA TI VRATI CEO POST OBJEKAT KAO RESPONSE SA BACKENDA, TADA CES POZVATI setPostObject I TAKO CES PONOVO RENDEROVATI SAMO OVAJ JEDAN POST, A NE DA U HOME COMPOMNENTU UPDATE-UJES CEO POSTS ARRAY, JER BI TO DOVELO DO RENDEROVANJA SVIH POSTOVA PONOVO */
-  // const [postObject, setPostObject] = useState(post);
-
+  const [postObject, setPostObject] = useState(post);
   const [isCommentVisible, setIsCommentVisible] = useState(false);
   const [commentsOnPost, setCommentsOnPost] = useState(() =>
     post.comments ? post.comments : [],
   );
-  console.log(commentsOnPost);
-  console.log(post);
 
   const {
     id: postId,
@@ -26,6 +22,7 @@ function PostItem({ post, onDeletePost }) {
     authorId: postAuthorId,
     likes,
     comments,
+    author,
   } = post;
 
   const currentUserId: string | null = localStorage
@@ -34,8 +31,9 @@ function PostItem({ post, onDeletePost }) {
 
   const formattedDate = formatDate(createdAt);
 
-  const handleLikePost = () => {
-    likePost(postId, postAuthorId);
+  const handleLikePost = async () => {
+    const updatedPost = await likePost(postId, postAuthorId);
+    setPostObject(updatedPost);
   };
 
   const handleDeletePost = () => {
@@ -43,13 +41,13 @@ function PostItem({ post, onDeletePost }) {
     deletePost(postId);
   };
 
-  const handleCommentPost = () => {
+  const handleShowCommentPost = (e) => {
     setIsCommentVisible((currState) => !currState);
+    console.log(e.target);
   };
 
   const handleCreateComment = async (content: string) => {
     const newComment = await createComment(content, postId);
-    console.log(newComment);
 
     setCommentsOnPost((currState) => {
       return [...currState, newComment];
@@ -75,7 +73,7 @@ function PostItem({ post, onDeletePost }) {
 
           <div className="flex flex-col">
             <p className="basis-full text-[13px] font-bold sm:text-sm">
-              {postAuthorId}
+              {author?.username}
             </p>
             <p className="mt-[-1px] text-xxs text-slate-400 sm:text-xs md:text-xs">
               {formattedDate}
@@ -96,7 +94,7 @@ function PostItem({ post, onDeletePost }) {
         </p>
 
         <div className="mb-2.5 flex cursor-pointer items-center justify-between text-xs font-medium text-slate-400 sm:mb-3 sm:text-sm md:mb-1 md:text-sm">
-          <span>{likes} likes</span>
+          <span>{postObject.likes} likes</span>
           <span>{commentsOnPost && commentsOnPost?.length} comments</span>
         </div>
 
@@ -104,14 +102,14 @@ function PostItem({ post, onDeletePost }) {
           <div className="mt-4 flex justify-between gap-6 font-medium sm:text-sm">
             <button
               onClick={handleLikePost}
-              className="flex items-center justify-center gap-0.5"
+              className="flex items-center justify-center gap-0.5 rounded-lg px-3 py-2 transition-all duration-300 hover:bg-slate-200"
             >
               <AiIcons.AiOutlineLike />
               <span>Like</span>
             </button>
             <button
-              onClick={handleCommentPost}
-              className="flex items-center justify-center gap-0.5"
+              onClick={handleShowCommentPost}
+              className="flex items-center justify-center gap-0.5 rounded-lg px-3 py-2 transition-all duration-300 hover:bg-slate-200"
             >
               <FaIcons.FaRegComment />
               <span>Comment</span>
@@ -127,7 +125,7 @@ function PostItem({ post, onDeletePost }) {
         )}
       </div>
 
-      {commentsOnPost && (
+      {commentsOnPost && isCommentVisible && (
         <CommentsList
           commentsOnPost={commentsOnPost}
           handleDeleteComment={handleDeleteComment}

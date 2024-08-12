@@ -1,15 +1,15 @@
 import { useOutletContext } from "react-router-dom";
 
-import PostItem from "./PostItem";
+import PostsList from "./PostsList";
 import CreatePost from "./CreatePost";
 import { useEffect, useState } from "react";
 import { getAllPosts, createPost } from "../../services/apiPosts";
 import { sortNewest } from "../../utils/helpers";
+import NoPostsMessage from "../../ui/NoPostsMessage";
 
 function Home() {
   const [searchQuery, setSearchQuery] = useOutletContext();
   const [posts, setPosts] = useState([]);
-  console.log(posts);
 
   const searchedPosts =
     searchQuery.length > 0
@@ -30,7 +30,6 @@ function Home() {
   const handleCreatePost = async (content: string) => {
     try {
       const newPost = await createPost(content);
-      console.log(newPost);
 
       setPosts((curPosts) => {
         const updatedPosts = [...curPosts, newPost];
@@ -52,11 +51,14 @@ function Home() {
     <main className="mx-auto mt-11 flex max-w-[95%] flex-wrap items-center justify-center pb-24 text-xs sm:max-w-xl sm:text-sm md:max-w-2xl md:text-sm">
       <CreatePost handleCreatePost={handleCreatePost} />
 
-      <ul className="grow divide-y divide-stone-200">
-        {searchedPosts.map((post) => (
-          <PostItem key={post.id} post={post} onDeletePost={handleDeletePost} />
-        ))}
-      </ul>
+      {posts.length > 0 ? (
+        <PostsList
+          searchedPosts={searchedPosts}
+          handleDeletePost={handleDeletePost}
+        />
+      ) : (
+        <NoPostsMessage />
+      )}
     </main>
   );
 }

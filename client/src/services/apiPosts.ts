@@ -6,7 +6,6 @@ export const getAllPosts = async () => {
     });
 
     const data = await response.json();
-    // console.log(data);
     const posts = data.data.posts;
     return posts;
   } catch (err) {
@@ -39,8 +38,6 @@ export const deletePost = async (id: string) => {
       method: "DELETE",
       credentials: "include",
     });
-
-    // console.log(response);
   } catch (err) {
     console.log(err);
   }
@@ -58,7 +55,8 @@ export const likePost = async (postId: string, authorId: string) => {
     });
 
     const data = await response.json();
-    console.log(data);
+    const newComment = data.data.post;
+    return newComment;
   } catch (err) {
     console.log(err);
   }
@@ -89,8 +87,6 @@ export const deleteComment = async (id: string) => {
       method: "DELETE",
       credentials: "include",
     });
-
-    // console.log(response);
   } catch (err) {
     console.log(err);
   }
