@@ -12,7 +12,7 @@ function AppLayout() {
 
   return (
     <div>
-      <Header onChange={handleSeachQuery} />
+      <Header onChange={handleSeachQuery} searchQuery={searchQuery} />
 
       <Outlet context={[searchQuery, setSearchQuery]} />
     </div>

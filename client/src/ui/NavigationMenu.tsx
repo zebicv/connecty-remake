@@ -67,7 +67,7 @@ const NavigationMenu = () => {
         <nav
           className={
             sidebar
-              ? "fixed right-0 top-0 flex h-screen w-36 justify-center bg-yellow-100 transition-all duration-[350ms] sm:w-44 md:w-52 lg:w-60"
+              ? "fixed right-0 top-0 flex h-screen justify-center bg-yellow-100 transition-all duration-[350ms] sm:w-44 md:w-52 lg:w-60 "
               : "fixed right-[-100%] top-0 flex h-screen w-[250px] justify-center bg-yellow-100 transition-all duration-[850ms]"
           }
         >
@@ -86,7 +86,7 @@ const NavigationMenu = () => {
                 >
                   <Link
                     to={item.path}
-                    className="flex h-full w-[95%] items-center rounded-md px-2 text-sm text-slate-700  no-underline hover:bg-yellow-400 sm:text-base md:text-lg"
+                    className="flex h-full w-[95%] items-center rounded-md px-2 text-sm font-semibold uppercase text-slate-700 no-underline hover:bg-yellow-400 sm:text-base md:text-lg"
                   >
                     {item.icon}
                     <span className="ml-2">{item.title}</span>
@@ -102,3 +102,6 @@ const NavigationMenu = () => {
 };
 
 export default NavigationMenu;
+
+// sm:w-44 md:w-52 lg:w-60 - STARO
+// md:max-w-md w-full - NOVO

@@ -9,9 +9,10 @@ import NoPostsMessage from "../../ui/NoPostsMessage";
 
 function Home() {
   const initialPosts = useLoaderData();
-
   const [searchQuery, setSearchQuery] = useOutletContext();
   const [posts, setPosts] = useState(initialPosts);
+
+  console.log(searchQuery);
 
   const searchedPosts =
     searchQuery.length > 0
@@ -30,6 +31,8 @@ function Home() {
 
         return sortedPosts;
       });
+
+      setSearchQuery("");
     } catch (err) {
       console.log(err.message);
     }
@@ -44,13 +47,13 @@ function Home() {
     <main className="mx-auto mt-11 flex max-w-[95%] flex-wrap items-center justify-center pb-24 text-xs sm:max-w-xl sm:text-sm md:max-w-2xl md:text-sm">
       <CreatePost handleCreatePost={handleCreatePost} />
 
-      {posts.length > 0 ? (
+      {searchedPosts.length > 0 ? (
         <PostsList
           searchedPosts={searchedPosts}
           handleDeletePost={handleDeletePost}
         />
       ) : (
-        <NoPostsMessage />
+        <NoPostsMessage searchedPosts={searchedPosts} posts={posts} />
       )}
     </main>
   );
