@@ -2,7 +2,7 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 
 import LoginForm from "./features/login/LoginForm";
 import SingupForm from "./features/login/SignupForm";
-import Home from "./features/home/Home";
+import Home, { loader as postsLoader } from "./features/home/Home";
 import AppLayout from "./ui/AppLayout";
 import Profile from "./features/profile/Profile";
 import ErrorPage from "./ui/ErrorPage";
@@ -26,6 +26,7 @@ const router = createBrowserRouter([
       {
         path: "/home",
         element: <Home />,
+        loader: postsLoader,
         errorElement: <ErrorPage />,
       },
       {

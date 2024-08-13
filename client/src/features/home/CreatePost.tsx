@@ -8,6 +8,8 @@ function CreatePost({ handleCreatePost }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    if (!content) return;
+
     handleCreatePost(content);
     setContent("");
   };
@@ -25,7 +27,7 @@ function CreatePost({ handleCreatePost }) {
           value={content}
           rows="1"
           name="create_post"
-          className="flex-1 resize-none rounded-full px-2 py-2 text-sm placeholder:text-xxs placeholder:text-slate-400 focus:outline-none focus:ring focus:ring-yellow-500 focus:ring-opacity-50 sm:px-3 sm:py-3 sm:placeholder:text-xs md:px-4 md:py-4 md:placeholder:text-sm"
+          className="flex-1 resize-none rounded-full px-2 py-2 text-xs placeholder:text-xxs placeholder:text-slate-400 focus:outline-none focus:ring focus:ring-yellow-500 focus:ring-opacity-50 sm:px-3 sm:py-3 sm:text-sm sm:placeholder:text-xs md:px-4 md:py-4 md:placeholder:text-sm"
           placeholder={`What's on your mind, ${currentUser}?`}
         ></textarea>
         <button

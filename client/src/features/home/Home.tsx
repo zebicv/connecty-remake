@@ -1,15 +1,17 @@
-import { useOutletContext } from "react-router-dom";
+import { useLoaderData, useOutletContext } from "react-router-dom";
 
 import PostsList from "./PostsList";
 import CreatePost from "./CreatePost";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { getAllPosts, createPost } from "../../services/apiPosts";
 import { sortNewest } from "../../utils/helpers";
 import NoPostsMessage from "../../ui/NoPostsMessage";
 
 function Home() {
+  const initialPosts = useLoaderData();
+
   const [searchQuery, setSearchQuery] = useOutletContext();
-  const [posts, setPosts] = useState([]);
+  const [posts, setPosts] = useState(initialPosts);
 
   const searchedPosts =
     searchQuery.length > 0
@@ -17,15 +19,6 @@ function Home() {
           `${post.content}`.toLowerCase().includes(searchQuery.toLowerCase()),
         )
       : posts;
-
-  useEffect(() => {
-    const loadPosts = async () => {
-      const initalPosts = await getAllPosts();
-      const sortedPosts = sortNewest(initalPosts);
-      setPosts(sortedPosts);
-    };
-    loadPosts();
-  }, []);
 
   const handleCreatePost = async (content: string) => {
     try {
@@ -61,6 +54,12 @@ function Home() {
       )}
     </main>
   );
+}
+
+export async function loader() {
+  const initalPosts = await getAllPosts();
+  const sortedPosts = sortNewest(initalPosts);
+  return sortedPosts;
 }
 
 export default Home;

@@ -15,6 +15,8 @@ function PostItem({ post, onDeletePost }) {
     post.comments ? post.comments : [],
   );
 
+  console.log(postObject);
+
   const {
     id: postId,
     content,
@@ -23,7 +25,7 @@ function PostItem({ post, onDeletePost }) {
     likes,
     comments,
     author,
-  } = post;
+  } = postObject;
 
   const currentUserId: string | null = localStorage
     .getItem("currentUser")
@@ -93,8 +95,8 @@ function PostItem({ post, onDeletePost }) {
           {content}
         </p>
 
-        <div className="mb-2.5 flex cursor-pointer items-center justify-between text-xs font-medium text-slate-400 sm:mb-3 sm:text-sm md:mb-1 md:text-sm">
-          <span>{postObject.likes} likes</span>
+        <div className="mb-2.5 flex items-center justify-between text-xs font-medium text-slate-400 sm:mb-3 sm:text-sm md:mb-1 md:text-sm">
+          <span>{likes} likes</span>
           <span>{commentsOnPost && commentsOnPost?.length} comments</span>
         </div>
 
