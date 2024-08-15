@@ -103,5 +103,4 @@ const NavigationMenu = () => {
 
 export default NavigationMenu;
 
-// sm:w-44 md:w-52 lg:w-60 - STARO
-// md:max-w-md w-full - NOVO
+

@@ -36,7 +36,6 @@ function CreatePost({ handleCreatePost }) {
         >
           Post
         </button>
-        {/* <Button>Post</Button> */}
       </form>
     </div>
   );

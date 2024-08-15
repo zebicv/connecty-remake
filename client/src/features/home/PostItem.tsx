@@ -68,7 +68,7 @@ function PostItem({ post, onDeletePost }) {
       <div className="mb-3 rounded-lg bg-white px-4 py-4 sm:px-6 sm:py-6 md:px-6 md:py-6">
         <div className="mb-2 flex items-center md:mb-3">
           <img
-            src="./src/assets/profile1.png"
+            src="./src/assets/profile2.png"
             alt="Profile picture"
             className="mr-2 h-8 w-8 rounded-full object-cover sm:h-10 sm:w-10"
           />

@@ -5,18 +5,14 @@ function ProfileSummary({ handleIsMenuVisible, isMenuVisible }) {
     <div>
       <div className="mb-6 flex gap-2 md:flex-col md:gap-1">
         <img
-          src="./src/assets/profile1.png"
+          src="./src/assets/profile2.png"
           alt="Profile picture"
           className="h-12 w-12 rounded-full object-cover md:h-20 md:w-20"
         ></img>
 
         <div className="grow">
-          <p className="mb-[-3px] text-sm font-semibold md:text-lg">
-            Anette Black
-          </p>
-          <p className="text-xs text-slate-400 md:text-sm">
-            annette_black@email.com
-          </p>
+          <p className="mb-[-3px] text-sm font-semibold md:text-lg">Test</p>
+          <p className="text-xs text-slate-400 md:text-sm">test@email.com</p>
         </div>
       </div>
 

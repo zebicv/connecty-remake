@@ -204,9 +204,6 @@ function SingupForm() {
         </div>
 
         <div className="flex justify-between gap-4">
-          {/* <Button type="button" onClick={handleSwitch}>
-        Switch to login
-      </Button> */}
           <Button type="submit">Sign up</Button>
         </div>
       </form>
@@ -215,39 +212,3 @@ function SingupForm() {
 }
 
 export default SingupForm;
-
-// <main className="flex h-lvh items-center justify-center">
-//   <Form method="post">
-//     <Input
-//       fieldName="username"
-//       placeholder="John Doe"
-//       type="text"
-//       onChange={handleUsername}
-//     />
-//     <Input
-//       fieldName="email"
-//       placeholder="me@example.com"
-//       type="email"
-//       onChange={handleEmail}
-//     />
-//     <Input
-//       fieldName="create_password"
-//       placeholder="*********"
-//       type="password"
-//       onChange={handlePassword}
-//     />
-//     <Input
-//       fieldName="confirm_password"
-//       placeholder="*********"
-//       type="password"
-//       onChange={handleConfirmPassword}
-//     />
-
-//     <div className="flex justify-between gap-4">
-//       <Button type="button" onClick={handleSwitch}>
-//         Switch to login
-//       </Button>
-//       <Button type="submit">Sign up</Button>
-//     </div>
-//   </Form>
-// </main>
