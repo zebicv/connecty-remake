@@ -6,7 +6,7 @@ function NoPostsMessage({ searchedPosts, posts }) {
 
   return (
     <div>
-      <p className="text-base font-bold text-yellow-500 sm:text-xl md:text-2xl">
+      <p className="text-center text-base font-bold text-yellow-500 sm:mx-auto sm:text-xl md:text-2xl">
         {isEqual
           ? "No posts to show. Feel free to post something! 😀"
           : "No posts match search query. Please try again!"}
