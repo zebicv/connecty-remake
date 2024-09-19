@@ -12,3 +12,7 @@ export interface Errors {
   password: string[];
   confirmPassword: string[];
 }
+
+export interface ErrorMap {
+  [key: number]: { field: keyof Errors; message: string };
+}

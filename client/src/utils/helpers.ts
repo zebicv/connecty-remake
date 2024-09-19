@@ -1,4 +1,12 @@
+import { ERROR_MAP } from "./constants";
 import { State, Errors } from "./interfaces";
+
+export function handleError(status: number) {
+  const error = ERROR_MAP[status];
+  if (error) {
+    throw new Error(JSON.stringify(error));
+  }
+}
 
 export function validateInput(state: State) {
   const errors: Errors = {

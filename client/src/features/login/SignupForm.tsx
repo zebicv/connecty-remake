@@ -7,7 +7,7 @@ import Button from "../../ui/Button";
 import ErrorMessage from "../../ui/ErrorMessage";
 import SuccessMessage from "../../ui/SuccessMessage";
 
-import { validateInput } from "../../utils/helpers";
+import { validateInput, handleError } from "../../utils/helpers";
 import { State, Errors } from "../../utils/interfaces";
 
 function SingupForm() {
@@ -109,17 +109,17 @@ function SingupForm() {
         }),
       });
 
-      const result = await response.json();
-
-      if (result.message === "User already exists.") {
-        throw new Error(result.message);
+      if (!response.ok) {
+        handleError(response.status);
       }
 
       setIsCreated(true);
     } catch (error) {
+      const parsedError = JSON.parse(error.message);
+
       setErrors((curState: Errors) => ({
         ...curState,
-        email: [error.message],
+        [parsedError.field]: [parsedError.message],
       }));
     }
   };

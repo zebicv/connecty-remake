@@ -61,15 +61,13 @@ export const register = async (req: Request, res: Response) => {
           userId: newUser.id,
         },
       });
-      return res
-        .status(201)
-        .send(
-          RESTResponse.createResponse(true, HTTPResponses.OK, {
-            id: newUser.id,
-            email: newUser.email,
-            username: newUser.username,
-          })
-        );
+      return res.status(201).send(
+        RESTResponse.createResponse(true, HTTPResponses.OK, {
+          id: newUser.id,
+          email: newUser.email,
+          username: newUser.username,
+        })
+      );
     });
   } catch (error) {
     console.log("Transaction failed: ", error);
